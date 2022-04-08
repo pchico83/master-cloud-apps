@@ -1,0 +1,22 @@
+name: demoservice
+
+build:
+  demoservice:
+    context: .
+
+deploy:
+  - kubectl apply -f k8s
+  - kubectl rollout restart deploy demoservice
+
+dev:
+  demoservice:
+    image: maven:3.8.1-jdk-11
+    command:
+      - mvn
+      - spring-boot:run
+    volumes:
+      - /root/.m2
+    forward:
+      - 8080:8080
+      - 5005:5005
+      - 35729:35729

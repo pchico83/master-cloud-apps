@@ -1,0 +1,47 @@
+name: voting-app
+
+build:
+  result:
+    context: result
+  vote:
+    context: vote
+  worker:
+    context: worker
+  dev:
+    context: worker
+    target: dev
+
+deploy:
+  - helm repo add bitnami https://charts.bitnami.com/bitnami
+  - helm upgrade --install postgresql bitnami/postgresql -f postgresql/values.yml --version 10.16.2
+  - helm upgrade --install kafka bitnami/kafka -f kafka/values.yml --version 14.5.0
+  - helm upgrade --install vote vote/chart --set image=${OKTETO_BUILD_VOTE_IMAGE}
+  - helm upgrade --install result result/chart --set image=${OKTETO_BUILD_RESULT_IMAGE}
+  - helm upgrade --install worker worker/chart --set image=${OKTETO_BUILD_WORKER_IMAGE}
+
+dev:
+  result:
+    command: bash
+    sync:
+      - result:/app
+    forward:
+      - 5432:postgresql:5432
+    reverse:
+      - 80:4000
+
+  vote:
+    command: ./mvnw spring-boot:run
+    sync:
+      - vote:/app
+
+  worker:
+    image: ${OKTETO_BUILD_DEV_IMAGE}
+    command: bash
+    securityContext:
+      capabilities:
+        add:
+        - SYS_PTRACE
+    sync:
+      - worker:/app
+    forward:
+      - 2345:2345

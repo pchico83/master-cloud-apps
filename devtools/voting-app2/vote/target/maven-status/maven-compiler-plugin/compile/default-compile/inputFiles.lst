@@ -1,0 +1,4 @@
+/app/src/main/java/com/okteto/vote/VoteApplication.java
+/app/src/main/java/com/okteto/vote/ServletInitializer.java
+/app/src/main/java/com/okteto/vote/kafka/KafkaProducerConfig.java
+/app/src/main/java/com/okteto/vote/controller/VoteController.java

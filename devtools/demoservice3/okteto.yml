@@ -1,0 +1,9 @@
+name: demoservice
+
+build:
+  demoservice:
+    context: .
+
+deploy:
+  - kubectl apply -f k8s
+  - kubectl rollout restart deploy demoservice
