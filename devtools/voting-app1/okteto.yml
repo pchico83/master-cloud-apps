@@ -24,6 +24,8 @@ dev:
     command: nodemon server.js
     sync:
       - result:/app
+    forward:
+      - 8080:80
 
   vote:
     command: ./mvnw spring-boot:run

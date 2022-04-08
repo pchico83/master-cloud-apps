@@ -16,6 +16,9 @@ dev:
       - spring-boot:run
     volumes:
       - /root/.m2
+    workdir: /src
+    sync:
+      - .:/src
     forward:
       - 8080:8080
       - 5005:5005

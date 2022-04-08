@@ -2,6 +2,7 @@ name: demoservice
 
 build:
   demoservice:
+    image: okteto.dev/demoservice
     context: .
 
 deploy:
@@ -16,5 +17,8 @@ dev:
       - spring-boot:run
     volumes:
       - /root/.m2
+    workdir: /src
+    sync:
+      - .:/src
     forward:
       - 8080:8080

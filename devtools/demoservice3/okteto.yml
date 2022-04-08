@@ -2,6 +2,7 @@ name: demoservice
 
 build:
   demoservice:
+    image: okteto.dev/demoservice
     context: .
 
 deploy:
